@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather for {{ city }}</h1>
+    {% if current %}
+        <h2>Current Weather</h2>
+        <p>City: {{ current.city }}</p>
+        <p>Country: {{ current.country }}</p>
+        <p>Temperature: {{ current.temperature }}°C</p>
+        <p>Weather: {{ current.weather }}</p>
+        <p>Humidity: {{ current.humidity }}%</p>
+        <p>Wind Speed: {{ current.wind_speed }} m/s</p>
+    {% else %}
+        <p>No current weather data available for {{ city }}</p>
+    {% endif %}
+    {% if forecast %}
+        <h2>Forecast</h2>
+        {% for entry in forecast.list %}
+            <h3>Forecast #{{ forloop.counter }}</h3>
+            <p>Time: {{ entry.dt_txt }}</p>
+            <p>Weather: {{ entry.weather.0.description }}</p>
+            <p>Temperature: {{ entry.main.temp }}°C</p>
+            <p>Wind Speed: {{ entry.wind.speed }} m/s</p>
+            <p>Humidity: {{ entry.main.humidity }}%</p>
+        {% empty %}
+            <p>No forecast data available for {{ city }}</p>
+        {% endfor %}
+    {% else %}
+        <p>No forecast data available for {{ city }}</p>
+    {% endif %}
+</body>
+</html>

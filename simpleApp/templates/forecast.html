@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <button id="get-weather">Get Weather</button>
+
+    <h1>Current weather for {{ current.city }}</h1>
+    <p>Current time: {{ current_time }}</p>
+    <p>Country: {{ current.country }}</p>
+    <p>Weather: {{ current.weather }}</p>
+    <p>Temperature: {{ current.temperature }}°C</p>
+    <p>Wind Speed: {{ current.wind_speed }} m/s</p>
+    <p>Humidity: {{ current.humidity }}%</p>
+
+    <h1>Weather forecast for {{ forecast.city.name }}</h1>
+
+    {% for entry in forecast.list %}
+        <h2>Forecast #{{ forloop.counter }}</h2>
+        <p>Time: {{ entry.dt_txt }}</p>
+        <p>Weather: {{ entry.weather.0.description }}</p>
+        <p>Temperature: {{ entry.main.temp }}°C</p>
+        <p>Wind Speed: {{ entry.wind.speed }} m/s</p>
+        <p>Humidity: {{ entry.main.humidity }}%</p>
+    {% endfor %}
+</body>
+<script>
+    document.getElementById('get-weather').addEventListener('click', function() {
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser.");
+        } else {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+    
+        function success(position) {
+            var lat = parseFloat(position.coords.latitude.toFixed(4));
+            var lon = parseFloat(position.coords.longitude.toFixed(4));
+            window.location.href = '/weather_search_by_coordinates/?lat=' + lat + '&lon=' + lon;
+        }
+    
+        function error() {
+            alert("Unable to retrieve your location.");
+        }
+    });
+    </script>
+
+</html>
