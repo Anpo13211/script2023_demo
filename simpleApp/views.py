@@ -40,9 +40,9 @@ def get_weather_data(request, by_coordinates=False):
         for entry in forecast['list']:
             entry['dt_txt'] = convert_utc_to_local(entry['dt_txt'])
 
-    if current['city'] == '堀ノ内':
-        current['city'] = 'Tokyo'
-        forecast['city']['name'] = 'Tokyo'
+    if current['city'] == 'Yabuhana':
+        current['city'] = '藤沢市'
+        forecast['city']['name'] = '藤沢市'
 
     context = {
         'forecast': forecast,
