@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Navigate</h1>
+    <button onclick="location.href='{% url 'home' %}';">Home</button>
+    <button onclick="location.href='{% url 'weather_form' %}';">Weather Form</button>
+    <button onclick="location.href='{% url 'weather_search' %}';">Weather Search</button>
+    <button onclick="location.href='{% url 'weather_search_by_coordinates' %}';">Weather Search by Coordinates</button>
+
+</body>
+</html>

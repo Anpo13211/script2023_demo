@@ -2,45 +2,88 @@
 <html>
 <head>
     <title>Weather Search Results</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        p {
-            color: #666;
-        }
-    </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Weather for {{ city }}</h1>
-    {% if current %}
-        <h2>Current Weather</h2>
-        <p>City: {{ current.city }}</p>
-        <p>Country: {{ current.country }}</p>
-        <p>Temperature: {{ current.temperature }}°C</p>
-        <p>Weather: {{ current.weather }}</p>
-        <p>Humidity: {{ current.humidity }}%</p>
-        <p>Wind Speed: {{ current.wind_speed }} m/s</p>
-    {% else %}
-        <p>No current weather data available for {{ city }}</p>
-    {% endif %}
-    {% if forecast %}
-        <h2>Forecast</h2>
-        {% for entry in forecast.list %}
-            <h3>Forecast #{{ forloop.counter }}</h3>
-            <p>Time: {{ entry.dt_txt }}</p>
-            <p>Weather: {{ entry.weather.0.description }}</p>
-            <p>Temperature: {{ entry.main.temp }}°C</p>
-            <p>Wind Speed: {{ entry.wind.speed }} m/s</p>
-            <p>Humidity: {{ entry.main.humidity }}%</p>
-        {% empty %}
-            <p>No forecast data available for {{ city }}</p>
-        {% endfor %}
-    {% else %}
-        <p>No forecast data available for {{ city }}</p>
-    {% endif %}
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col text-center">
+                <button onclick="location.href='{% url 'home' %}'" class="btn btn-secondary">Home</button>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <h1 class="text-center">Weather for {{ current.city }}</h1>
+                {% if current %}
+                    <h2 class="text-center">Current Weather</h2>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">City</th>
+                                <td>{{ current.city }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Country</th>
+                                <td>{{ current.country }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Temperature</th>
+                                <td>{{ current.temperature }}°C</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Weather</th>
+                                <td>{{ current.weather }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Humidity</th>
+                                <td>{{ current.humidity }}%</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Wind Speed</th>
+                                <td>{{ current.wind_speed }} m/s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-center">No current weather data available for {{ city }}</p>
+                {% endif %}
+                {% if forecast %}
+                    <h2 class="text-center">Forecast</h2>
+                    {% for entry in forecast.list %}
+                        <h3 class="text-center">Forecast #{{ forloop.counter }}</h3>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Time</th>
+                                    <td>{{ entry.dt_txt }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Weather</th>
+                                    <td>{{ entry.weather.0.description }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Temperature</th>
+                                    <td>{{ entry.main.temp }}°C</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Wind Speed</th>
+                                    <td>{{ entry.wind.speed }} m/s</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Humidity</th>
+                                    <td>{{ entry.main.humidity }}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {% empty %}
+                        <p class="text-center">No forecast data available for {{ city }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">No forecast data available for {{ city }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,4 +1,24 @@
-<form method="GET" action="{% url 'weather_search' %}">
-    <input name="city" type="text" placeholder="Search by city name...">
-    <input type="submit" value="Search">
-  </form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Search</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col text-center">
+                <button onclick="location.href='{% url 'home' %}'" class="btn btn-secondary">Home</button>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-6 offset-3">
+                <form method="GET" action="{% url 'weather_search' %}" class="form-inline justify-content-center">
+                    <input name="city" type="text" class="form-control mb-2 mr-sm-2" placeholder="Search by city name...">
+                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
