@@ -23,6 +23,8 @@ params = {
 default_lat = '35.69'
 default_lon = '139.69'
 
+
+
 def weather_search_by_coordinates(request):
     lat = request.GET.get('lat', default_lat)
     lon = request.GET.get('lon', default_lon)
