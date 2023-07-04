@@ -11,7 +11,7 @@ params = {
     'appid': API_KEY,
     'units': 'metric',  # Use 'imperial' for Fahrenheit
     'lang': 'ja',
-    'cnt': 12
+    'cnt': 10
 }
 
 async def search_fetch_forecast(session, url, city):

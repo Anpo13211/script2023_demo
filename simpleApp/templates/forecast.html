@@ -3,6 +3,7 @@
 <head>
     <title>Weather Search Results</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -12,7 +13,7 @@
                 <a href="/weather_form/" class="btn btn-secondary">Search Weather</a>
             </div>
         </div>
-    
+
         <div class="row mt-4">
             <div class="col">
                 <h1 class="text-center">Current weather for {{ current.city }}</h1>
@@ -46,41 +47,43 @@
                 </table>
             </div>
         </div>
-        
+
         <div class="row mt-4">
             <div class="col">
                 <h1 class="text-center">Weather forecast for {{ forecast.city.name }}</h1>
+                <canvas id="forecast-chart"></canvas>
                 {% for entry in forecast.list %}
-                    <h2 class="text-center">Forecast #{{ forloop.counter }}</h2>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th scope="row">Time</th>
-                                <td>{{ entry.dt_txt }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Weather</th>
-                                <td>{{ entry.weather.0.description }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Temperature</th>
-                                <td>{{ entry.main.temp }}°C</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Wind Speed</th>
-                                <td>{{ entry.wind.speed }} m/s</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Humidity</th>
-                                <td>{{ entry.main.humidity }}%</p>
-                            </tr>
-                        </tbody>
-                    </table>
+                <p></p>
+                <p></p>
+                <h2 class="text-center">Forecast #{{ forloop.counter }}</h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Time</th>
+                            <td>{{ entry.dt_txt }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Weather</th>
+                            <td>{{ entry.weather.0.description }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Temperature</th>
+                            <td>{{ entry.main.temp }}°C</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wind Speed</th>
+                            <td>{{ entry.wind.speed }} m/s</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Humidity</th>
+                            <td>{{ entry.main.humidity }}%</p>
+                        </tr>
+                    </tbody>
+                </table>
                 {% endfor %}
             </div>
         </div>
     </div>
-    
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -103,6 +106,68 @@
                 alert("Unable to retrieve your location.");
             }
         });
-    </script>
+
+
+        var forecastData = [
+        {% for entry in forecast.list %}
+        { 
+            time: "{{ entry.dt_txt }}", 
+            temp: {{ entry.main.temp }}, 
+            weather: "{{ entry.weather.0.description }}" 
+        },
+        {% endfor %}
+        ];
+
+        // Convert forecast data to JavaScript array
+        var forecastData = [
+        {% for entry in forecast.list %}
+        { 
+            time: "{{ entry.dt_txt }}", 
+            temp: {{ entry.main.temp }}, 
+            weather: "{{ entry.weather.0.description }}" 
+        },
+        {% endfor %}
+        ];
+
+        var ctx = document.getElementById('forecast-chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: forecastData.map(function(entry) { return entry.time; }),
+                datasets: [{
+                    label: 'Temperature',
+                    data: forecastData.map(function(entry) { return entry.temp; }),
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                var label = '';
+                                if (context.dataset.label) {
+                                    label += context.dataset.label + ': ';
+                                }
+                                label += context.parsed.y + '°C, ' + forecastData[context.dataIndex].weather;
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+</script>
 </body>
 </html>

@@ -64,7 +64,7 @@ def convert_utc_to_local(utc_dt_str):
     local_tz = pytz.timezone('Asia/Tokyo')
     local_dt = utc_dt.astimezone(local_tz)
 
-    return local_dt.strftime('%Y-%m-%d %H:%M:%S')
+    return local_dt.strftime('%m月%d日%H:%M')
 
 def weather_view(request):
     context = get_weather_data(request)
