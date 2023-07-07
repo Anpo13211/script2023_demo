@@ -4,6 +4,16 @@
     <title>Weather Search Results</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .table th,
+        .table td {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+        .table tr:hover {
+        background-color: lightgray;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -168,6 +178,35 @@
                 }
             }
         });
+
+        function setWeatherBackground(weather) {
+            var color;
+            switch (weather) {
+                case '雲':
+                    color = 'rgba(128, 128, 128, 0.2)'; // Grey
+                    break;
+                case '厚い雲':
+                    color = 'rgba(128, 128, 128, 0.2)'; // Grey
+                    break;
+                case '曇りがち':
+                    color = 'rgba(128, 128, 128, 0.2)'; // Grey
+                    break;
+                case '小雨':
+                    color = 'rgba(0, 255, 255, 0.2)'; // Light Blue
+                    break;
+                case '雨':
+                    color = 'rgba(0, 255, 255, 0.2)'; // Light Blue
+                    break;
+                case '晴天':
+                    color = 'rgba(255, 165, 0, 0.2)'; // Orange
+                    break;
+                default:
+                    color = 'rgba(255, 255, 255, 0.2)'; // Default to light white
+            }
+            document.body.style.backgroundColor = color;
+        }
+        var currentWeather = '{{ current.weather }}';
+        setWeatherBackground(currentWeather);
 </script>
 </body>
 </html>
